@@ -61,10 +61,10 @@
                 <!-- mobile menu -->
                 <div class="navbar-nav d-block d-lg-none">
                     <li class="nav-item">
-                        <a href="#" class="nav-link d-inlineblock"> Hi, Angga</a>
+                        <a href="#" class="nav-link d-inlineblock"> Hi, {{ Auth::user()->name }}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link d-inlineblock"> Cart</a>
+                        <a href="{{ route('cart') }}" class="nav-link d-inlineblock"> Cart</a>
                     </li>
                 </div>
             @endauth

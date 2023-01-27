@@ -33,7 +33,7 @@ class TransactionDetail extends Model
 
     public function product()
     {
-        return $this->hasOne(Products::class, 'id', 'products_id');
+        return $this->hasOne(Product::class, 'id', 'products_id');
     }
 
     public function transaction()
