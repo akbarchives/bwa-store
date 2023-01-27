@@ -101,17 +101,19 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="provinces_id">Province</label>
-                                <select name="provinces_id" id="provinces_id" class="form-control">
-                                    <option value="West Java">West Java</option>
+                                <select name="provinces_id" id="provinces_id" class="form-control" v-if="provinces" v-model="provinces_id">
+                                    <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
                                 </select>
+                                <select v-else class="form-control"></select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="regencies_is">City</label>
-                                <select name="regencies_is" id="regencies_is" class="form-control">
-                                    <option value="Bandung">Bandung</option>
+                                <select name="regencies_id" id="regencies_id" class="form-control" v-if="regencies" v-model="regencies_id">
+                                    <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
                                 </select>
+                                <select v-else class="form-control"></select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -197,12 +199,17 @@
                 },
                 getRegenciesData(){
                     var self = this;
-                    axios.get('{{ route('api-regencies') }}' + self.provinces_id)
+                    axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
                         .then(function(response){
                             self.regencies = response.data;
                         })
                 },
-
+            },
+            watch: {
+                provinces_id: function(val, oldVal) {
+                    this.regencies_id = null;
+                    this.getRegenciesData(); 
+                },
             }
         });
     </script>
