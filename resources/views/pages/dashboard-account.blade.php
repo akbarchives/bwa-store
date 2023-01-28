@@ -6,49 +6,6 @@
 
 @section('content')
             <div id="page-content-wrapper">
-                <nav class="navbar navbar-expand-lg navbar-light navbar-store fixed-top" data-aos="fade-down">
-                    <div class="container-fluid">
-                        <button class="btn-secondary d-md-none mr-auto mr-2" id="menu-toggle">
-                            &laquo; Menu
-                        </button>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <!-- dekstop menu -->
-                            <ul class="navbar-nav d-none d-lg-flex ml-auto">
-                                <li class="nav-item dropdown">
-                                    <a href="#" class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown">
-                                        <img src="/images/icon-user.png" alt="" class="rounded-circle mr-2 profile-picture"> Hi, Angga
-                                    </a>
-                                    <div class="dropdown-menu">
-                                        <a href="dashboard.html" class="dropdown-item">Dashboard</a>
-                                        <a href="dashboard-account.html" class="dropdown-item">Settings</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="/" class="dropdown-item">Logout</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link d-inline-block mt-2">
-                                        <img src="/images/icon-cart-filled.svg" alt="">
-                                        <div class="card-badge">3</div>
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <!-- mobile menu -->
-                            <div class="navbar-nav d-block d-lg-none">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link d-inlineblock"> Hi, Angga</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link d-inlineblock"> Cart</a>
-                                </li>
-
-                            </div>
-                        </div>
-                    </div>
-                </nav>
                 <!-- Section Content -->
                 <div class="section-content section-dashboard-home" data-aos="fade-up">
                     <div class="container-fluid">
@@ -61,66 +18,69 @@
                         <div class="dashboard-content">
                             <div class="row">
                                 <div class="col-12">
-                                    <form action="">
+                                    <form action="{{ route('dashboard-setting-redirect', 'dashboard-setting-account') }}" id="locations" method="POST" enctype="multipart/form-data">
+                                        @csrf
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Name</label>
-                                                            <input type="text" class="form-control" id="name" name="name" value="Rizqi Akbar">
+                                                            <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="email">Email</label>
-                                                            <input type="email" class="form-control" id="email" name="email" value="rizqiakbar@gmail.com">
+                                                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="addressOne">Address 1</label>
-                                                            <input type="text" class="form-control" id="addressOne" name="addressOne" value="Setra Duta Cemara">
+                                                            <label for="address_one">Address 1</label>
+                                                            <input type="text" class="form-control" id="address_one" name="address_one" value="{{ $user->address_one }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="addressTwo">Address 2</label>
-                                                            <input type="text" class="form-control" id="addressTwo" name="addressTwo" value="Blok B2 No. 34">
+                                                            <label for="address_two">Address 2</label>
+                                                            <input type="text" class="form-control" id="address_two" name="address_two" value="{{ $user->address_two }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="province">Province</label>
-                                                            <select name="province" id="province" class="form-control">
-                                                            <option value="West Java">West Java</option>
-                                                        </select>
+                                                            <label for="provinces_id">Province</label>
+                                                            <select name="provinces_id" id="provinces_id" class="form-control" v-if="provinces" v-model="provinces_id">
+                                                                <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                                                            </select>
+                                                            <select v-else class="form-control"></select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="city">City</label>
-                                                            <select name="city" id="city" class="form-control">
-                                                            <option value="Bandung">Bandung</option>
-                                                        </select>
+                                                            <label for="regencies_is">City</label>
+                                                            <select name="regencies_id" id="regencies_id" class="form-control" v-if="regencies" v-model="regencies_id">
+                                                                <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
+                                                            </select>
+                                                            <select v-else class="form-control"></select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="postalCode">Postal Code</label>
-                                                            <input type="text" class="form-control" id="postalCode" name="postalCode" value="53414">
+                                                            <label for="zip_code">Postal Code</label>
+                                                            <input type="text" class="form-control" id="zip_code" name="zip_code" value="{{ $user->zip_code }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="country">Country</label>
-                                                            <input type="text" class="form-control" id="country" name="country" value="Indonesia">
+                                                            <input type="text" class="form-control" id="country" name="country" value="{{ $user->country }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="mobile">Mobile</label>
-                                                            <input type="text" class="form-control" id="mobile" name="mobile" value="+6281294213582">
+                                                            <label for="phone_number">Mobile</label>
+                                                            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $user->phone_number }}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -141,5 +101,49 @@
                 </div>
             </div>
 @endsection
+
+@push('addon-script')
+    <script src="/vendor/vue/vue.js"></script>
+    <script src="https://unpkg.com/vue-toasted"></script>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script>
+        var locations = new Vue({
+            el: "#locations",
+            mounted() {
+                AOS.init();
+                this.getProvincesData();
+            },
+            data: {
+                provinces: null,
+                regencies: null,
+                provinces_id: null,
+                regencies_id: null,
+            },
+            methods: {
+                getProvincesData() {
+                    var self = this;
+                    axios.get('{{ route('api-provinces') }}')
+                        .then(function(response){
+                            self.provinces = response.data;
+                        })
+                },
+                getRegenciesData(){
+                    var self = this;
+                    axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
+                        .then(function(response){
+                            self.regencies = response.data;
+                        })
+                },
+            },
+            watch: {
+                provinces_id: function(val, oldVal) {
+                    this.regencies_id = null;
+                    this.getRegenciesData(); 
+                },
+            }
+        });
+    </script>
+    <script src="/script/navbar-scroll.js"></script>
+@endpush
 
 
