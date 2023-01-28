@@ -4,6 +4,14 @@
     Store Detail Page
 @endsection
 
+@push('addon-style')
+    <style>
+        .thumbnail-image {
+        /* height:150px; */
+    }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-content page-details">
         <section class="store-breadcrumbs" data-aos="fade-down" data-aos-delay="100">
